@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SSC PDF Import — Chittagong Board Ranking</title>
+<style>
+:root{font-family:Arial,sans-serif;color:#202638;background:#f4f6fb}*{box-sizing:border-box}body{margin:0;padding:20px}.wrap{max-width:900px;margin:auto}.panel{background:white;border:1px solid #e2e6ef;border-radius:16px;padding:20px;margin:14px 0;box-shadow:0 4px 16px #1725540b}h1{font-size:25px;margin:0 0 8px}h2{font-size:18px;margin:0 0 12px}.muted{color:#626b7c;line-height:1.5}.btn{border:0;border-radius:9px;background:#3157d5;color:white;padding:11px 15px;font-weight:700;cursor:pointer}.btn:disabled{opacity:.5;cursor:not-allowed}.secondary{background:#e9edfa;color:#24345f}input,textarea{font:inherit;max-width:100%}input[type=file]{display:block;margin:14px 0}progress{width:100%;height:16px}textarea{width:100%;min-height:220px;border:1px solid #ccd3e1;border-radius:10px;padding:12px;line-height:1.45}.status{padding:10px;background:#eef3ff;border-radius:9px;margin:12px 0;white-space:pre-wrap}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.small{font-size:13px}.warn{background:#fff5df;padding:12px;border-radius:10px;color:#664700;line-height:1.5}.hidden{display:none}
+</style>
+</head>
+<body><main class="wrap">
+<section class="panel">
+<h1>SSC PDF Import Tool</h1>
+<p class="muted">Upload an institution result PDF. This page uses your browser to render pages and run OCR. It does not upload the PDF to a server.</p>
+<div class="warn"><b>Important:</b> OCR output may contain mistakes, especially in tables or low-quality scans. This first version extracts text for review; it does not guarantee accurate student names, rolls, GPA or marks. Verify the data before publishing it.</div>
+<input id="pdf" type="file" accept="application/pdf">
+<div class="row"><label>Start page <input id="start" type="number" min="1" value="1" style="width:75px"></label><label>End page <input id="end" type="number" min="1" value="1" style="width:75px"></label></div>
+<div class="row" style="margin-top:14px"><button class="btn" id="run" disabled>Start OCR</button><button class="btn secondary" id="stop" disabled>Stop after current page</button></div>
+<div id="status" class="status">Choose a PDF to begin.</div><progress id="progress" max="100" value="0"></progress>
+</section>
+<section class="panel">
+<h2>OCR text output</h2>
+<p class="muted small">Review the text below. You can copy it or save it as a text file. Process large PDFs in small page ranges (for example, 1–5 at a time).</p>
+<textarea id="output" placeholder="Recognized text will appear here..."></textarea>
+<div class="row" style="margin-top:12px"><button class="btn" id="copy">Copy text</button><button class="btn secondary" id="save">Download TXT</button><button class="btn secondary" id="csv">Download row-based CSV draft</button></div>
+</section>
+<section class="panel">
+<h2>Next step: searchable student records</h2>
+<p class="muted">The OCR text must be checked and converted into consistent fields such as name, roll, registration, GPA and institution. Once verified, save it as a JSON file and connect that JSON to your main website. Do not publish unverified OCR results.</p>
+</section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script>
+const $=id=>document.getElementById(id);let pdfFile=null,stopRequested=false,allText='';
+if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+$('pdf').addEventListener('change',async e=>{pdfFile=e.target.files[0];if(!pdfFile)return;try{const data=await pdfFile.arrayBuffer();const doc=await pdfjsLib.getDocument({data}).promise;$('start').value=1;$('end').value=doc.numPages;$('end').max=doc.numPages;$('status').textContent=`Loaded: ${pdfFile.name}\nPages: ${doc.numPages}\nFor best results, OCR a few pages at a time.`;$('run').disabled=false;}catch(err){$('status').textContent='Could not open PDF: '+err.message;}});
+$('stop').onclick=()=>{stopRequested=true;$('status').textContent+='\\nStop requested; finishing current page...';};
+$('run').onclick=async()=>{if(!pdfFile)return;stopRequested=false;$('run').disabled=true;$('stop').disabled=false;allText='';$('output').value='';let worker;try{const data=await pdfFile.arrayBuffer();const doc=await pdfjsLib.getDocument({data}).promise;let a=Math.max(1,Number($('start').value)||1),b=Math.min(doc.numPages,Number($('end').value)||a);if(a>b)throw Error('End page must be greater than or equal to start page.');worker=await Tesseract.createWorker('eng');for(let n=a;n<=b;n++){if(stopRequested)break;$('status').textContent=`Processing page ${n} of ${b}...`;const page=await doc.getPage(n);const viewport=page.getViewport({scale:2});const canvas=document.createElement('canvas');canvas.width=viewport.width;canvas.height=viewport.height;await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;const result=await worker.recognize(canvas);allText+=`\n\n===== PAGE ${n} =====\n`+result.data.text;$('output').value=allText;$('progress').value=((n-a+1)/(b-a+1))*100;}}catch(err){$('status').textContent='Error: '+err.message;}finally{if(worker)await worker.terminate();$('run').disabled=false;$('stop').disabled=true;if(allText)$('status').textContent+=(stopRequested?'\nStopped.':'\nFinished.')+' Review OCR carefully before using the data.';}};
+function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;a.click();URL.revokeObjectURL(url);}
+$('copy').onclick=async()=>{try{await navigator.clipboard.writeText($('output').value);$('status').textContent='OCR text copied.';}catch(e){$('status').textContent='Copy unavailable. Select the text in the box and copy it.';}};
+$('save').onclick=()=>download('ssc-ocr-output.txt',$('output').value,'text/plain');
+$('csv').onclick=()=>{const lines=$('output').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);const csv='OCR line (review required)\n'+lines.map(x=>'"'+x.replace(/"/g,'""')+'"').join('\n');download('ssc-ocr-lines-review.csv',csv,'text/csv');};
+</script></body></html>
