@@ -1,331 +1,160 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chittagong Board Rankings</title>
-
 <style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f3f6fb;
-  color: #172b4d;
-}
-
-header {
-  background: #102f56;
-  color: white;
-  padding: 25px 18px;
-  text-align: center;
-}
-
-.logo {
-  font-size: 14px;
-  letter-spacing: 2px;
-  color: #b9d8ff;
-  font-weight: bold;
-}
-
-header h1 {
-  font-size: 27px;
-  margin: 15px 0 8px;
-}
-
-header p {
-  color: #d8e7f8;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-main {
-  max-width: 720px;
-  margin: 30px auto;
-  padding: 15px;
-}
-
-.panel {
-  background: white;
-  padding: 23px;
-  border-radius: 15px;
-  box-shadow: 0 4px 18px #152d4b12;
-}
-
-h2 {
-  margin-top: 0;
-  color: #102f56;
-}
-
-.description {
-  color: #64748b;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-label {
-  display: block;
-  margin-top: 17px;
-  font-size: 13px;
-  font-weight: bold;
-}
-
-input, select {
-  width: 100%;
-  padding: 14px;
-  margin-top: 7px;
-  border: 1px solid #d4dce8;
-  border-radius: 8px;
-  background: white;
-  font-size: 15px;
-}
-
-button {
-  width: 100%;
-  padding: 14px;
-  margin-top: 20px;
-  background: #174b83;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-button:active {
-  background: #0c315c;
-}
-
-#results {
-  margin-top: 23px;
-}
-
-.student {
-  background: #f0f6ff;
-  border: 1px solid #d9e7fa;
-  padding: 17px;
-  border-radius: 11px;
-  margin-bottom: 13px;
-}
-
-.student h3 {
-  margin: 0 0 12px;
-  color: #123d70;
-}
-
-.student p {
-  font-size: 14px;
-  color: #52647b;
-  margin: 8px 0;
-  overflow-wrap: anywhere;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 15px;
-}
-
-.stat {
-  background: white;
-  padding: 12px 5px;
-  text-align: center;
-  border-radius: 8px;
-}
-
-.stat small {
-  display: block;
-  color: #64748b;
-  margin-bottom: 7px;
-}
-
-.stat strong {
-  font-size: 17px;
-  color: #123d70;
-}
-
-.message {
-  background: #fff7e6;
-  padding: 14px;
-  border-radius: 8px;
-  color: #79531b;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-footer {
-  text-align: center;
-  padding: 25px 15px;
-  color: #718096;
-  font-size: 12px;
-  line-height: 1.8;
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#172b4d}
+header{background:#102f56;color:white;padding:25px 18px;text-align:center}
+.logo{font-size:14px;letter-spacing:2px;color:#b9d8ff;font-weight:bold}
+header h1{font-size:27px;margin:15px 0 8px}
+header p{color:#d8e7f8;font-size:14px;line-height:1.6}
+main{max-width:720px;margin:30px auto;padding:15px}
+.panel{background:white;padding:23px;border-radius:15px;box-shadow:0 4px 18px #152d4b12}
+h2{margin-top:0;color:#102f56}
+.description{color:#64748b;font-size:14px;line-height:1.6}
+label{display:block;margin-top:17px;font-size:13px;font-weight:bold}
+input,select{width:100%;padding:14px;margin-top:7px;border:1px solid #d4dce8;border-radius:8px;background:white;font-size:15px}
+button{width:100%;padding:14px;margin-top:20px;background:#174b83;color:white;border:none;border-radius:8px;font-size:16px;font-weight:bold;cursor:pointer}
+#results{margin-top:23px}
+.student{background:#f0f6ff;border:1px solid #d9e7fa;padding:17px;border-radius:11px;margin-bottom:13px}
+.student h3{margin:0 0 12px;color:#123d70}
+.student p{font-size:14px;color:#52647b;margin:8px 0;overflow-wrap:anywhere}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:15px}
+.stat{background:white;padding:12px 5px;text-align:center;border-radius:8px}
+.stat small{display:block;color:#64748b;margin-bottom:7px}
+.stat strong{font-size:17px;color:#123d70}
+.message{background:#fff7e6;padding:14px;border-radius:8px;color:#79531b;font-size:14px;line-height:1.6}
+footer{text-align:center;padding:25px 15px;color:#718096;font-size:12px;line-height:1.8}
 </style>
 </head>
-
 <body>
 
 <header>
-  <div class="logo">CBR PORTAL</div>
-  <h1>Chittagong Board Rankings</h1>
-  <p>SSC & HSC Student Search and Ranking Portal</p>
+<div class="logo">CBR PORTAL</div>
+<h1>Chittagong Board Rankings</h1>
+<p>SSC &amp; HSC Student Search and Ranking Portal</p>
 </header>
 
 <main>
-  <section class="panel">
-    <h2>Find a Student</h2>
+<section class="panel">
+<h2>Find a Student</h2>
+<p class="description">
+Search by roll number, institution name or EIIN.
+This dataset contains SSC 2018 institution results for one school.
+</p>
 
-    <p class="description">
-      Search for a student using their name,
-      institution name or EIIN.
-    </p>
+<label for="exam">Examination</label>
+<select id="exam">
+<option value="SSC">SSC</option>
+</select>
 
-    <label for="exam">Examination</label>
-    <select id="exam">
-      <option value="SSC">SSC</option>
-      <option value="HSC">HSC</option>
-    </select>
+<label for="year">Examination Year</label>
+<select id="year">
+<option value="2018">2018</option>
+</select>
 
-    <label for="year">Examination Year</label>
-    <select id="year">
-  <option value="2026">2026</option>
-  <option value="2025">2025</option>
-  <option value="2024">2024</option>
-  <option value="2023">2023</option>
-  <option value="2022">2022</option>
-  <option value="2021">2021</option>
-  <option value="2020">2020</option>
-  <option value="2019">2019</option>
-  <option value="2018">2018</option>
-    </select>
+<label for="search">Search by roll number, institution or EIIN</label>
+<input id="search" type="text" inputmode="numeric"
+placeholder="Enter student roll number or EIIN">
 
-    <label for="search">Search Information</label>
-    <input
-      id="search"
-      type="text"
-      placeholder="Enter student name, EIIN or institution"
-    >
-
-    <button onclick="searchStudent()">SEARCH</button>
-
-    <div id="results"></div>
-  </section>
+<button onclick="searchStudent()">SEARCH</button>
+<div id="results"></div>
+</section>
 </main>
 
 <footer>
-  CBR Portal — Chittagong Board Rankings
-  <br>
-  Unofficial student search project.
-  <br>
-  Sample records are fictional and do not represent actual results.
+CBR Portal — Chittagong Board Rankings<br>
+Unofficial student search project.<br>
+Records are transcribed from an institution result;
+please verify against the original board document.
 </footer>
 
 <script>
+let students = [];
+const resultsEl = document.getElementById("results");
 
-// Temporary fictional records for testing.
-// These will be replaced with verified records later.
+async function loadStudents() {
+  try {
+    const response = await fetch("./ssc_2018_eiin_104077_records.json");
+    if (!response.ok) throw new Error("Data file not found.");
 
-const students = [
-  {
-    name: "Example Student",
-    eiin: "123456",
-    institution: "Example School",
-    exam: "SSC",
-    year: "2026",
-    gpa: "5.00",
-    marks: 1125,
-    rank: 125
-  },
-  {
-    name: "Sample Student",
-    eiin: "654321",
-    institution: "Sample College",
-    exam: "HSC",
-    year: "2026",
-    gpa: "5.00",
-    marks: 1150,
-    rank: 80
+    students = await response.json();
+
+    resultsEl.innerHTML =
+      '<div class="message">Student data loaded: ' +
+      students.length + ' records. Search using a roll number.</div>';
+
+  } catch (error) {
+    resultsEl.innerHTML =
+      '<div class="message">Could not load records. Check that ' +
+      'ssc_2018_eiin_104077_records.json is uploaded beside index.html.</div>';
   }
-];
-
-function searchStudent() {
-
-  const query = document
-    .getElementById("search")
-    .value.trim().toLowerCase();
-
-  const exam = document.getElementById("exam").value;
-  const year = document.getElementById("year").value;
-  const results = document.getElementById("results");
-
-  if (!query) {
-    results.innerHTML =
-      '<div class="message">Please enter a name, EIIN or institution.</div>';
-    return;
-  }
-
-  const matches = students.filter(student => {
-
-    return student.exam === exam &&
-      student.year === year &&
-      (
-        student.name.toLowerCase().includes(query) ||
-        student.eiin.includes(query) ||
-        student.institution.toLowerCase().includes(query)
-      );
-
-  });
-
-  if (matches.length === 0) {
-    results.innerHTML =
-      '<div class="message">No matching sample records found. This demo currently contains fictional records only.</div>';
-    return;
-  }
-
-  results.innerHTML = matches.map(student => `
-
-    <div class="student">
-
-      <h3>${student.name}</h3>
-
-      <p><b>Institution:</b> ${student.institution}</p>
-
-      <p><b>EIIN:</b> ${student.eiin}</p>
-
-      <p><b>Examination:</b> ${student.exam} ${student.year}</p>
-
-      <div class="stats">
-
-        <div class="stat">
-          <small>GPA</small>
-          <strong>${student.gpa}</strong>
-        </div>
-
-        <div class="stat">
-          <small>Total Marks</small>
-          <strong>${student.marks}</strong>
-        </div>
-
-        <div class="stat">
-          <small>Rank</small>
-          <strong>#${student.rank}</strong>
-        </div>
-
-      </div>
-
-    </div>
-
-  `).join("");
-
 }
 
-</script>
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[ch]));
+}
 
+function searchStudent() {
+  const query = document.getElementById("search")
+    .value.trim().toLowerCase();
+
+  if (!query) {
+    resultsEl.innerHTML =
+      '<div class="message">Please enter a roll number, institution or EIIN.</div>';
+    return;
+  }
+
+  const matches = students.filter(s =>
+    String(s.roll ?? "").toLowerCase().includes(query) ||
+    String(s.eiin ?? "").toLowerCase().includes(query) ||
+    String(s.institution ?? "").toLowerCase().includes(query)
+  );
+
+  if (!matches.length) {
+    resultsEl.innerHTML =
+      '<div class="message">No matching record found. ' +
+      'This dataset currently covers only Raichata Premashia ' +
+      'Adarsha High School, SSC 2018.</div>';
+    return;
+  }
+
+  resultsEl.innerHTML = matches.map(s => `
+    <div class="student">
+      <h3>Roll Number: ${escapeHTML(s.roll)}</h3>
+      <p><b>Student name:</b> Not provided in the institution result</p>
+      <p><b>Institution:</b> ${escapeHTML(s.institution)}</p>
+      <p><b>EIIN:</b> ${escapeHTML(s.eiin)}</p>
+      <p><b>Examination:</b> ${escapeHTML(s.exam)} ${escapeHTML(s.year)}</p>
+      <p><b>Group:</b> ${escapeHTML(s.group)}</p>
+      <div class="stats">
+        <div class="stat">
+          <small>Status</small>
+          <strong>${escapeHTML(s.status)}</strong>
+        </div>
+        <div class="stat">
+          <small>GPA</small>
+          <strong>${s.gpa === null ? "—" : escapeHTML(Number(s.gpa).toFixed(2))}</strong>
+        </div>
+      </div>
+    </div>
+  `).join("");
+}
+
+document.getElementById("search").addEventListener("keydown", e => {
+  if (e.key === "Enter") searchStudent();
+});
+
+loadStudents();
+</script>
 </body>
-  </html>
-  
+</html>
